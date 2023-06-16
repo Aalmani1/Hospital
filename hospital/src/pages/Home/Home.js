@@ -47,7 +47,7 @@ return (
 
                                 <ul class = "navbar-nav d-flex align-items-center">
                                     <li class = "nav-item">
-                                        <a href = "#" class = "nav-link text-white nav-active text-nowrap">Home</a>
+                                        <a href = "/" class = "nav-link text-white nav-active text-nowrap">Home</a>
                                     </li>
                                     <li class = "nav-item">
                                         <a href = "#OurServices" class = "nav-link text-white text-nowrap">Our services</a>
@@ -56,7 +56,7 @@ return (
                                         <a href = "#apps" class = "nav-link text-white text-nowrap">Apps</a>
                                     </li>
                                     <li class = "nav-item">
-                                        <a href = "#" class = "nav-link text-white text-nowrap">Login</a>
+                                        <a href = "login" class = "nav-link text-white text-nowrap">Login</a>
                                     </li>
                                     <li class = "nav-item">
                                         <a href = "signUp" class = "nav-link text-white text-nowrap">SignUp</a>

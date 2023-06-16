@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import elemImg1 from '../../../imgs/element-img-1.png';
-import "./Signup.css"
-import bannedImg from '../../../imgs/banner-image.png';
+import elemImg1 from '../../imgs/element-img-1.png';
+import bannedImg from '../../imgs/banner-image.png';
 import { Form, Input ,AutoComplete,
     Button,
     Cascader,
@@ -10,19 +9,11 @@ import { Form, Input ,AutoComplete,
     InputNumber,
     Row,
     Select} from 'antd';
+const Login = () =>{
 
-const SignUp = ()=>{
+    const [username , setUsername]=useState();
+    const [password , setPassword]=useState()
 
-    const [firstName , setFirstName]=useState("");
-    const[lastName , setLastName]=useState("")
-    const[email , setEmail]=useState("")
-    const[phoneNumber , setPhoneNumber]=useState("")
-    const[usename , setUsername]=useState("")
-    const[password , setPassword]=useState("")
-
-
-
-      
     return (
         <div>
 
@@ -77,7 +68,7 @@ const SignUp = ()=>{
                                 <div  >
                                    <div style={{backgroundColor:"#fff" , borderRadius:"8px" , color:"black" , width:"80%"}}>
                                     <br></br>
-                                    <h3 style={{margin:"5%", color:"#458EF6"}}>Signup</h3>
+                                    <h3 style={{margin:"5%", color:"#458EF6"}}>Login</h3>
                                     <Form 
                                     style={{
                                         maxWidth: 600,
@@ -85,54 +76,11 @@ const SignUp = ()=>{
                                       }}
                                       scrollToFirstError>
 
-                                    <Form.Item
-                                    name="firstName"
-                                >
-                                    <label style={{color:"black",textAlign:"left"}}>First Name : </label>
-                                    <Input 
-                                    value={firstName}
-                                    onChange={(e)=>setFirstName(e.target.value)}
-                                    placeholder="First Name" 
-                                    style={{color:"black"}}
-                                    />
-                                    </Form.Item>
-
-                                    <Form.Item> 
-                                    <label style={{color:"black",textAlign:"left"}}>Last Name : </label>
-                                    <Input 
-                                    placeholder="Last Name" 
-                                    value={lastName}
-                                    onChange={(e)=>setLastName(e.target.value)}
-                                    style={{color:"black"}}
-                                    />
-                                    </Form.Item>
-
-                                    <Form.Item >
-                                    <label style={{color:"black",textAlign:"left"}}>Email : </label>
-                                    <Input 
-                                    placeholder="Email"       
-                                    value={email}
-                                    onChange={(e)=>setEmail(e.target.value)}
-                                    style={{color:"black"}}
-                                    type="email"
-                                    />
-                                    </Form.Item>
-
-                                    <Form.Item>
-                                    <label style={{color:"black",textAlign:"left"}}>Mobile Number : </label>
-                                    <Input 
-                                    placeholder="Mobile Number"
-                                    value={phoneNumber}
-                                    onChange={(e)=>setPhoneNumber(e.target.value)}
-                                    style={{color:"black"}}
-                                    type="number"
-                                     />
-                                    </Form.Item>
-
+                        
                                     <Form.Item>
                                     <label style={{color:"black",textAlign:"left"}}>Username : </label>
                                     <Input 
-                                    value={usename}
+                                    value={username}
                                     onChange={(e)=>setUsername(e.target.value)}
                                     placeholder="User Name" 
                                     style={{color:"black"}}
@@ -169,4 +117,5 @@ const SignUp = ()=>{
         </div>
     )
 }
-export default SignUp; 
+
+export default Login;
