@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import elemImg1 from '../../../imgs/element-img-1.png';
 import "./Signup.css"
 import bannedImg from '../../../imgs/banner-image.png';
@@ -9,7 +10,10 @@ import { Form, Input ,AutoComplete,
     Col,
     InputNumber,
     Row,
-    Select} from 'antd';
+    Select,
+    message } from 'antd';
+import axios from 'axios';
+
 
 const SignUp = ()=>{
 
@@ -20,8 +24,46 @@ const SignUp = ()=>{
     const[usename , setUsername]=useState("")
     const[password , setPassword]=useState("")
 
+    const navigate = useNavigate();
 
+    const createPatient = async () => {
+        try {
+          const response = await axios.post('http://localhost:1111/api/hospital/add-patient', {
+            fullName: `${firstName+lastName }`,
+            phoneNumber: phoneNumber,
+            userName: usename,
+            password: password
+          });
+          // Show success message
+          message.success('User created successfully');
+          clearForm();
+          navigate('/login'); // Redirect to signin page
+          return response.data;
+        } catch (error) {
+            if(error?.response?.status===400){
+            message.error(error?.response?.data?.Message);
+            }
+          else{
+          message.error('Something went wrong , please try again later');
+          }
+          
+        }
+      };
 
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        createPatient();
+      };
+    
+
+const clearForm=()=>(
+setEmail(""),
+setFirstName(""),
+setLastName(""),
+setPassword(""),
+setPhoneNumber(""),
+setUsername("")
+)
       
     return (
         <div>
@@ -75,7 +117,7 @@ const SignUp = ()=>{
 
                             <div class="banner-right">
                                 <div  >
-                                   <div style={{backgroundColor:"#fff" , borderRadius:"8px" , color:"black" , width:"80%"}}>
+                                   <div style={{backgroundColor:"#fff" , borderRadius:"8px" , color:"black" , width:"80%", marginBottom:"10%"}}>
                                     <br></br>
                                     <h3 style={{margin:"5%", color:"#458EF6"}}>Signup</h3>
                                     <Form 
@@ -151,7 +193,13 @@ const SignUp = ()=>{
                                     </Form.Item>
 
                                     <Form.Item >
-                                    <Button type="primary" htmlType="submit">
+                                    <Button 
+                                    type="primary" 
+                                    htmlType="submit" 
+                                    onClick={handleSubmit}
+                                    disabled={usename==="" || password===""||firstName===""||lastName===""||email===""||phoneNumber===""}
+
+                                    >
                                     Register
                                     </Button>
                                     </Form.Item>
@@ -169,4 +217,4 @@ const SignUp = ()=>{
         </div>
     )
 }
-export default SignUp; 
+export default SignUp;
