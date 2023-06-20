@@ -14,15 +14,24 @@ import { Modal, Input } from 'antd';
 
 const MyAppointment =()=>{
 
-    const [patientId , setPatientId]=useState(1);
+    
     const [isLoading , setIsLoading]=useState(false);
     const [appointmentData , setAppointmentData]=useState();
     const [attendenc , setAttendenc]=useState({});
     const [modal , setModal]=useState(false);
 
+    // ===================     prescription info
+    const [appointmentId , setAppointmentId]=useState();
+    const [patientId , setPatientId]=useState();
+    const [doctorId , setDoctorId]=useState(2);
+    const [drugName , setDrugName]=useState();
+    const [dose , setDose]=useState()
+    const [duration , setDuration]=useState()
+    const [orderInstruction , setOrderInstruction]=useState()
+
     const getMyAppointment = async () => {
         try {
-          const response = await axios.get(`http://localhost:1111/api/hospital/appointments/${patientId}`);
+          const response = await axios.get(`http://localhost:1111/api/hospital/appointments/${doctorId}`);
           console.log(response.data);
           setIsLoading(false);
           setAppointmentData([])
@@ -37,13 +46,13 @@ const MyAppointment =()=>{
       useEffect(() => {
         getMyAppointment();
       }, []);
-      console.log("3333",appointmentData)
 
+      console.log(appointmentId)
       const columns = [
         {
             title: 'Appointment ID',
             dataIndex: 'appointmentId',
-            key: 'appointmentId',
+            key: 'appointmentId'
           },
         {
           title: 'Patient Name',
@@ -97,7 +106,7 @@ const MyAppointment =()=>{
                 <Button       
                   icon={<MedicineBoxOutlined />}           
                 //   disabled={attendenc.recordId !== 3}             
-                  onClick={() => setModal(true)}       
+                  onClick={() => (setModal(true),setAppointmentId(record.appointmentId),setPatientId(record.patientId))}       
                 >
                   Prescription       
                 </Button>   
@@ -106,50 +115,48 @@ const MyAppointment =()=>{
           }
       ];
 
+      const createPrescription = async () => {
+        try {
+          const response = await axios.post('http://localhost:1111/api/issue-prescriptions', [{
+            "doctorId": doctorId,
+            "patientId": patientId,
+            "drugName": drugName,
+            "dose": dose,
+            "orderInstruction": orderInstruction,
+            "duration": duration,
+            "appointmentId": appointmentId
+          }]);
+          // Show success message
+          message.success('The prescription has been created successfully');
+          clearForm();
+          setModal(false)
+          return response.data;
+        } catch (error) {
+            if(error?.response?.status===400){
+            message.error(error?.response?.data?.Message);
+            }
+          else{
+          message.error('Something went wrong , please try again later');
+          }
+          
+        }
+      };
+
       const issuePrescription =()=>(
-        console.log("test")
+        createPrescription()
       )
 
-      const MedicationForm = () => {  
-        return (
-          <Form>
-            <Form.Item
-              name="name"
-            
-  >
-                    <label>Drug Name</label>
+      const clearForm=()=>(
+        setAppointmentId(),
+        setDoctorId(),
+        setPatientId(),
+        setDrugName(),
+        setDose(),
+        setDuration(),
+        setOrderInstruction()
+      )
 
-    <Input  />         
-            </Form.Item>
 
-            <Form.Item
-              name="dose"
-            
-            >
-                <label>Dose</label>
-              <Input  />          
-            </Form.Item>
-
-            <Form.Item
-              name="duration"
-            
-            >
-            <label>Duration</label>
-
-              <Input/>        
-            </Form.Item>
-
-            <Form.Item 
-  >
-     <label>Order Instruction</label>
-
-    <Input  />     
-            </Form.Item>
-            
-            {/* Other fields */}            
-          </Form>    
-        );
-      };
 
     return (
         <div>
@@ -165,7 +172,7 @@ const MyAppointment =()=>{
           }  
         
         visible={modal}
-        onCancel={()=>setModal(false)}
+        onCancel={()=>(setModal(false),clearForm())}
         footer={<Form.Item style={{ marginTop: '2rem' }} >
         <Button type="primary" htmlType="submit" onClick={()=>issuePrescription()}>
           Issue prescription
@@ -176,7 +183,47 @@ const MyAppointment =()=>{
         {/* Other prescription info */}
                 
        <div style={{paddingTop:"4%"}}>
-       <MedicationForm />    
+       <Form 
+            style={{
+                maxWidth: 600,
+                margin:"5%"
+              }}
+              scrollToFirstError>
+            <Form.Item
+              name="name"
+            
+  >
+                    <label>Drug Name</label>
+
+            <Input value={drugName}  onChange={(e)=>setDrugName(e.target.value)}/>        
+            </Form.Item>
+
+            <Form.Item
+              name="dose"
+            
+            >
+                <label>Dose</label>
+              <Input value={dose} onChange={(e)=>setDose(e.target.value)}/>          
+            </Form.Item>
+
+            <Form.Item
+              name="duration"
+            
+            >
+            <label>Duration</label>
+
+              <Input value={duration} onChange={(e)=>setDuration(e.target.value)}/>        
+            </Form.Item>
+
+            <Form.Item 
+  >
+     <label>Order Instruction</label>
+
+    <Input value={orderInstruction} onChange={(e)=>setOrderInstruction(e.target.value)} />     
+            </Form.Item>
+            
+           
+          </Form>   
 
 
        </div>
