@@ -5,6 +5,7 @@ import axios from 'axios';
 import { DownOutlined } from '@ant-design/icons';
 import { Form, DatePicker, Select,message } from 'antd';
 import moment from "moment/moment";
+import './MyAppointment.css'
 
 const MyAppointmet=()=>{
 
@@ -48,6 +49,11 @@ const MyAppointmet=()=>{
       }, []);
 
     const columns = [
+        {
+            title: 'Appointment ID',
+            dataIndex: 'appointmentId',
+            key: 'appointmentId',
+          },
         {
           title: 'Doctor Name',
           dataIndex: 'doctorName',
@@ -118,7 +124,11 @@ const MyAppointmet=()=>{
 
 
 return (
-    <Table columns={columns} dataSource={appointmentData} />
+    <Table columns={columns} dataSource={appointmentData} 
+    rowClassName={(record, index) => {
+        if (index % 2 === 0) return 'evenRow';
+        return 'oddRow';
+      }}/>
 )
 }
 export default MyAppointmet;
