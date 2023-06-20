@@ -25,12 +25,13 @@ function Home() {
   
 
   return (
-<Layout style={{ height: '100vh' }}>      
+<Layout style={{ height: '120vh' }}>      
 <Sider  className="site-layout-background" style={{ backgroundColor: '#458ff6', color: '#fff' }}>
         <div className='d-flex' style={{ fontSize: '1.5rem', fontWeight: 'bold', padding: '16px', color: '#fff' }}>
         <span class="brand-shape d-inline-block text-white">H</span>
                                     <span class="brand-text fw-7">Hospital</span>
         </div>
+        <br></br>
         <Menu
           theme="light"
           mode="inline"
