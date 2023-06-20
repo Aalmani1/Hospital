@@ -6,6 +6,7 @@ import NotFoundPage from './pages/NotFound/NotFoundPage';
 import Login from './pages/Login/Login';
 import PatientHome from './pages/patient/Home/Home'
 import DoctorHome from './pages/doctor/Home/Home'
+import AdminHome from './pages/admin/Home'
 function App() {
   return (
     <div >
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/patient/home" element={<PatientHome />} />
         <Route path="/doctor/home" element={<DoctorHome />} />
+        <Route path="/admin" element={<AdminHome />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </Router>
