@@ -1,0 +1,29 @@
+.d-block{display: block;}
+.d-inline{display: inline;}
+.d-inline-block{display: inline-block;}
+.d-flex{display: flex;}
+.d-inline-flex{display: inline-flex;}
+.d-grid{display: grid;}
+.d-none{display: none;}
+
+.ant-menu-item-selected {
+    background-color: #fff;
+    color: #458ff6 !important;
+  }
+  .brand-shape{
+    background-color: var(--clr-white);
+    color: var(--clr-blue);
+}
+.brand-shape{
+    width: 41px;
+    height: 41px;
+    border-radius: 50%;
+    background-color: var(--clr-white);
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-right: 12px;
+    color: var(--clr-blue);
+}
