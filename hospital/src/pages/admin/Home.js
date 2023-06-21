@@ -1,23 +1,54 @@
 
 import React, { useState } from 'react';
-import { Layout, Menu, Button, Dropdown ,Space , Avatar} from 'antd';
+import { Layout, Menu, Button, Dropdown ,Space , Avatar,message} from 'antd';
 import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined } from '@ant-design/icons';
 import './home.css'
 import CreateDoctor from './CreateDoctor';
 import AllAppointment from './AllAppointment';
 import AllDoctors from './AllDoctors';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-function Home() {
+function Home({setUserOpj ,userOpj}) {
+  const navigate = useNavigate();
 
   const [component , setComponent]=useState();
+
+  const logout = async () => {
+    try {
+      const response = await axios.post('http://localhost:1111/api/logout');
+      // Show success message
+      message.success('Logout successfully');
+      //clearForm();
+      setUserOpj(null)
+      navigate('/');
+      
+
+      return response.data;
+    } catch (error) {
+        if(error?.response?.status===400){
+        message.error(error?.response?.data?.Message);
+        }
+      else{
+      message.error('Something went wrong , please try again later');
+      }
+      
+    }
+  };
+  const handleSubmit = (event) => {
+    logout();
+  };
+
   const profileMenu = (
     <Menu>
       <Menu.Item key="1" icon={<UserOutlined />}>
         Profile
       </Menu.Item>
-      <Menu.Item key="2" icon={<LogoutOutlined />}>
+      <Menu.Item key="2" icon={<LogoutOutlined />} onClick={handleSubmit}>
         Logout
       </Menu.Item>
     </Menu>

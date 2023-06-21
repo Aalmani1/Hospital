@@ -10,7 +10,7 @@ import axios from 'axios';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-function Home({setUserOpj}) {
+function Home({setUserOpj ,userOpj}) {
   const navigate = useNavigate();
 
   const [component , setComponent]=useState();
@@ -21,7 +21,7 @@ function Home({setUserOpj}) {
       // Show success message
       message.success('Logout successfully');
       //clearForm();
-      setUserOpj()
+      setUserOpj(null)
       navigate('/');
       
 
@@ -80,7 +80,7 @@ function Home({setUserOpj}) {
       <Header className="site-layout-header-background" style={{ backgroundColor: '#fff', boxShadow: '0 2px 8px #f0f1f2' }}>
   <div className="site-layout-header-content" style={{ display: 'flex', justifyContent:"flex-end",alignItems: 'center' }}>
     <Space size={8}>
-      <div style={{ fontWeight: 'bold' }}>Doctor Name {" "}</div>
+      <div style={{ fontWeight: 'bold' }}>{userOpj?.fullName} {" "}</div>
     </Space>
     <Dropdown overlay={profileMenu}>
       <Avatar icon={<UserOutlined />} />

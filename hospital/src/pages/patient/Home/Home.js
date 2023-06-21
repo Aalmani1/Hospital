@@ -1,26 +1,53 @@
 
 import React, { useState } from 'react';
-import { Layout, Menu, Button, Dropdown ,Space , Avatar} from 'antd';
+import { Layout, Menu, Button, Dropdown ,Space , Avatar,message} from 'antd';
 import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined } from '@ant-design/icons';
 import './home.css'
 import BookAppointmet from '../BookAppointment/BookAppointment';
 import MyAppointmet from '../MyAppointment/MyAppointment';
 import MyPrescription from '../MyPrescription/MyPrescription';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-function Home({setUserOpj}) {
+function Home({setUserOpj ,userOpj}) {
   const navigate = useNavigate();
 
   const [component , setComponent]=useState();
+
+  const logout = async () => {
+    try {
+      const response = await axios.post('http://localhost:1111/api/logout');
+      // Show success message
+      message.success('Logout successfully');
+      //clearForm();
+      setUserOpj(null)
+      navigate('/');
+      
+
+      return response.data;
+    } catch (error) {
+        if(error?.response?.status===400){
+        message.error(error?.response?.data?.Message);
+        }
+      else{
+      message.error('Something went wrong , please try again later');
+      }
+      
+    }
+  };
+  const handleSubmit = (event) => {
+    logout();
+  };
+
   const profileMenu = (
     <Menu>
       <Menu.Item key="1" icon={<UserOutlined />}>
         Profile
       </Menu.Item>
-      <Menu.Item key="2" icon={<LogoutOutlined />} onClick={()=>(setUserOpj(),navigate("/"))}>
+      <Menu.Item key="2" icon={<LogoutOutlined />} onClick={handleSubmit}>
         Logout
       </Menu.Item>
     </Menu>
@@ -56,7 +83,7 @@ function Home({setUserOpj}) {
       <Header className="site-layout-header-background" style={{ backgroundColor: '#fff', boxShadow: '0 2px 8px #f0f1f2' }}>
   <div className="site-layout-header-content" style={{ display: 'flex', justifyContent:"flex-end",alignItems: 'center' }}>
     <Space size={8}>
-      <div style={{ fontWeight: 'bold' }}>Patient Name {" "}</div>
+      <div style={{ fontWeight: 'bold' }}>{userOpj?.fullName} {" "}</div>
     </Space>
     <Dropdown overlay={profileMenu}>
       <Avatar icon={<UserOutlined />} />

@@ -9,17 +9,19 @@ import { Form, Input ,AutoComplete,
     Col,
     InputNumber,
     Row,
-    Select,  message} from 'antd';
+    Select,  message ,Spin} from 'antd';
     import axios from 'axios';
+import './Login.css'
 
 const Login = ({setUserOpj}) =>{
-
+    const [isLoading , setIsLoading]=useState(false);
     const [username , setUsername]=useState();
     const [password , setPassword]=useState()
 
     const navigate = useNavigate();
 
     const login = async () => {
+        setIsLoading(true)
         try {
           const response = await axios.post('http://localhost:1111/api/login', {
             userName: username,
@@ -40,9 +42,12 @@ const Login = ({setUserOpj}) =>{
         } catch (error) {
             if(error?.response?.status===400){
             message.error(error?.response?.data?.Message);
+            setIsLoading(false)
             }
           else{
           message.error('Something went wrong , please try again later');
+          setIsLoading(false)
+
           }
           
         }
@@ -138,7 +143,7 @@ const Login = ({setUserOpj}) =>{
                                     </Form.Item>
 
                                     <Form.Item >
-                                    <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+                                    <Button type="primary" htmlType="submit" loading={isLoading} onClick={handleSubmit}>
                                     Login
                                     </Button>
                                     </Form.Item>
