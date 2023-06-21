@@ -14,9 +14,11 @@ const CreateDoctor =()=>{
     const[phoneNumber , setPhoneNumber]=useState("")
     const[usename , setUsername]=useState("")
     const[password , setPassword]=useState("")
+    const [isLoading , setIsLoading]=useState(false)
 
 
     const createPatient = async () => {
+      setIsLoading(true);
         try {
           const response = await axios.post('http://localhost:1111/api/hospital/add-doctor', {
             fullName: `${firstName+lastName }`,
@@ -66,6 +68,7 @@ return (
 <br></br>
 
 <Form 
+disabled={isLoading}
                                     style={{
                                         margin:"5%",
                                         marginTop:"1%"

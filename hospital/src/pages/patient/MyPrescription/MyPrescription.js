@@ -3,7 +3,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import React ,{useState ,useEffect}from "react";
 import axios from 'axios';
 import { DownOutlined } from '@ant-design/icons';
-import { Form, DatePicker, Select,message } from 'antd';
+import { Form, DatePicker, Select,message,Spin } from 'antd';
 import moment from "moment/moment";
 import './MyPrescription.css'
 
@@ -14,6 +14,7 @@ const MyPrescription=()=>{
     const [prescriptionData , setPrescriptionData]=useState();
 
     const getMyPrescription = async () => {
+      setIsLoading(true)
         try {
           const response = await axios.get(`http://localhost:1111/api/patient/${patientId}/prescriptions`);
           console.log(response.data);
@@ -28,7 +29,6 @@ const MyPrescription=()=>{
       };
 
 
-console.log("222",prescriptionData)
     
       useEffect(() => {
         getMyPrescription();
@@ -81,6 +81,20 @@ console.log("222",prescriptionData)
 
 
 return (
+  <div>
+    {isLoading?
+    <div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+    <Spin/>
+    </div>
+    :
+    <div>
+    <div  style={{backgroundColor:"#fff" , borderRadius:"8px" , color:"black" , width:"100%", marginBottom:"15%"}}>
+  
+        <div style={{  padding:"3%"}}>
+  
+      <h3 style={{color:"#458EF6"}}>My Prescription</h3>
+  <br></br>
+    <br></br>
     <Table 
     columns={columns} 
     dataSource={prescriptionData}
@@ -88,6 +102,11 @@ return (
         if (index % 2 === 0) return 'evenRow';
         return 'oddRow';
       }}/>
+      </div>
+      </div>
+      </div>
+    }
+      </div>
 )
 }
 export default MyPrescription;

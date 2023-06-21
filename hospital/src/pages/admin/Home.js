@@ -4,6 +4,8 @@ import { Layout, Menu, Button, Dropdown ,Space , Avatar} from 'antd';
 import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined } from '@ant-design/icons';
 import './home.css'
 import CreateDoctor from './CreateDoctor';
+import AllAppointment from './AllAppointment';
+import AllDoctors from './AllDoctors';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -37,12 +39,15 @@ function Home() {
           style={{  borderRight: 0, backgroundColor: '#458ff6', color: '#fff' }}
         >
         
-          <Menu.Item key="2" icon={<CalendarOutlined />} style={{ color: '#fff' }} onClick={()=>setComponent(2)}>
+          <Menu.Item key="1" icon={<CalendarOutlined />} style={{ color: '#fff' }} onClick={()=>setComponent(1)}>
           Create Doctor
           </Menu.Item>
-          {/* <Menu.Item key="3" icon={<FileOutlined />} style={{ color: '#fff' }}onClick={()=>setComponent(3)}>
-            My prescription
-          </Menu.Item> */}
+          <Menu.Item key="2" icon={<FileOutlined />} style={{ color: '#fff' }}onClick={()=>setComponent(2)}>
+            All Doctors
+          </Menu.Item>
+          <Menu.Item key="3" icon={<FileOutlined />} style={{ color: '#fff' }}onClick={()=>setComponent(3)}>
+            All Appointment
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -57,15 +62,15 @@ function Home() {
   </div>
 </Header>
 <Content style={{ margin: '24px 16px 0' }}>
-       {/* {   component===1&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-        <BookAppointmet/>
-          </div>} */}
-          {   component===2&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+{   component===1&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
         <CreateDoctor/>
           </div>}
-          {/* {   component===3&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-        <MyPrescription/>
-          </div>} */}
+       {   component===2&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+        <AllDoctors/>
+          </div>}
+          {   component===3&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+        <AllAppointment/>
+          </div>}
           
         </Content>
       </Layout>

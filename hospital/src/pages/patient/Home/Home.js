@@ -6,10 +6,13 @@ import './home.css'
 import BookAppointmet from '../BookAppointment/BookAppointment';
 import MyAppointmet from '../MyAppointment/MyAppointment';
 import MyPrescription from '../MyPrescription/MyPrescription';
+import { useNavigate } from 'react-router-dom';
+
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-function Home() {
+function Home({setUserOpj}) {
+  const navigate = useNavigate();
 
   const [component , setComponent]=useState();
   const profileMenu = (
@@ -17,7 +20,7 @@ function Home() {
       <Menu.Item key="1" icon={<UserOutlined />}>
         Profile
       </Menu.Item>
-      <Menu.Item key="2" icon={<LogoutOutlined />}>
+      <Menu.Item key="2" icon={<LogoutOutlined />} onClick={()=>(setUserOpj(),navigate("/"))}>
         Logout
       </Menu.Item>
     </Menu>

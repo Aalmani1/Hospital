@@ -9,7 +9,7 @@ import './MyAppointment.css';
 import CheckOutlined from '@ant-design/icons/CheckOutlined';  
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import MedicineBoxOutlined from '@ant-design/icons/MedicineBoxOutlined';
-import { Modal, Input } from 'antd';
+import { Modal, Input ,Spin } from 'antd';
 
 
 const MyAppointment =()=>{
@@ -30,6 +30,7 @@ const MyAppointment =()=>{
     const [orderInstruction , setOrderInstruction]=useState()
 
     const getMyAppointment = async () => {
+      setIsLoading(true)
         try {
           const response = await axios.get(`http://localhost:1111/api/hospital/appointments/${doctorId}`);
           console.log(response.data);
@@ -160,12 +161,18 @@ const MyAppointment =()=>{
 
     return (
         <div>
+
+          {isLoading?
+             <div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+             <Spin/>
+             </div>
+          :
         <Table columns={columns} dataSource={appointmentData} 
         rowClassName={(record, index) => {
             if (index % 2 === 0) return 'evenRow';
             return 'oddRow';
           }}/>
-
+        }
 <Modal 
         title={
             <div style={{ color:'#458ff6' }}>Prescription</div>  

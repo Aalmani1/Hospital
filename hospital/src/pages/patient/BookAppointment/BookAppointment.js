@@ -2,7 +2,7 @@ import React ,{useState ,useEffect}from "react";
 import axios from 'axios';
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
-import { Form, DatePicker, Select, Button,message } from 'antd';
+import { Form, DatePicker, Select, Button,message ,Spin} from 'antd';
 import moment from "moment/moment";
 const { Option } = Select;
 
@@ -13,11 +13,12 @@ const BookAppointmet=()=>{
     const [selectedDoctorId, setSelectedDoctorId] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
     const [availableAppointment , setAvailableAppointment]=useState([])
-    const [fullTime , setFullTime]=useState(null)
+    const [fullTime , setFullTime]=useState("")
 
   
 
     const getDoctors = async () => {
+      setIsLoading(true)
         try {
           const response = await axios.get('http://localhost:1111/api/hospital/all-doctors');
           console.log(response.data);
@@ -31,6 +32,7 @@ const BookAppointmet=()=>{
       };
 
       const getAvailableAppointment = async () => {
+        setIsLoading(true)
         try {
           const response = await axios.get(`http://localhost:1111/api/hospital/available-appointments/${selectedDoctorId}/${selectedDate}`);
           console.log(response.data);
@@ -50,6 +52,7 @@ const BookAppointmet=()=>{
     
  
       const createAppointment = async () => {
+        setIsLoading(true)
         try {
           const response = await axios.post('http://localhost:1111/api/hospital/Add-appointment', {
             appointmentTime: fullTime,
@@ -77,40 +80,42 @@ const BookAppointmet=()=>{
         setAvailableAppointment([])
         )
 
-const handleDoctorSelect = (value, option) => {
-    console.log("@@",value)
-    setSelectedDoctorId(value);
-  };
-
+        const handleDoctorSelect = (value, option) => {
+          setSelectedDoctorId(value);
+          setAvailableAppointment([]); // Clear the availableAppointment state variable when the doctor is changed
+          setFullTime(""); // Clear the fullTime state variable when the doctor is changed
+        };
 
   const handleDateSelect = (date, dateString) => {
-    
     console.log(dateString)
     setSelectedDate(dateString);
-    setAvailableAppointment([])
-    setFullTime(null)
-
+    setAvailableAppointment([]);
+    setFullTime(""); // Clear the fullTime state variable when the date is changed
   };
+  console.log("fullTime",fullTime)
 
   const availableApp =()=>(
     (selectedDate&&selectedDoctorId)&&getAvailableAppointment()
     
   )
 
-  useEffect(()=>{
-    setFullTime(null)
-    setAvailableAppointment([])
-    availableApp()
-  },[selectedDate])
+  useEffect(() => {
+    if (selectedDoctorId) { // Only trigger the availableApp function if selectedDoctorId is not null
+      setAvailableAppointment([]);
+      setFullTime("");
+      availableApp();
+    }
+  }, [selectedDate]);
 
   const handleFullTimeSelect = (value) => {
     console.log(value)
-    setFullTime(value);
-
+    if (availableAppointment?.includes(value)) { // Only set the fullTime state variable if the selected value is available
+      setFullTime(value);
+    } else {
+      setFullTime(""); // Clear the fullTime state variable if the selected value is not available
+    }
   };
 
-console.log("##",selectedDate)
-console.log("@@",fullTime)
 
 return (
 <div>
@@ -122,7 +127,7 @@ return (
 <br></br>
 <br></br>
 
-      <Form form={form} style={{width:"100%"}}>
+      <Form form={form} style={{width:"100%"}} disabled={isLoading}>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <Form.Item
           name="doctorId"
@@ -150,23 +155,25 @@ return (
             allowClear/>
         </Form.Item>
         <Form.Item
-          name="time"
-          label="Time"
-          rules={[{ required: true, message: 'Please select a time' }]}
-          style={{ flex: 1 }}
-        >
-          <Select placeholder="Select a time" 
-          onSelect={handleFullTimeSelect} 
-          disabled={ availableAppointment?.length===0}  
-          value={fullTime === null ? "" : moment(fullTime).format("HH:mm")}
-          allowClear>
-            {availableAppointment?.map((time) => (
-              <Option key={time} value={time}>
-                {moment(time).format("HH:mm")}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
+  name="time"
+  label="Time"
+  rules={[{ required: true, message: 'Please select a time' }]}
+  style={{ flex: 1 }}
+>
+  <Select
+    placeholder="Select a time"
+    onSelect={handleFullTimeSelect}
+    disabled={availableAppointment?.length === 0}
+    value={fullTime&&moment(fullTime).format("HH:mm")} 
+    allowClear
+  >
+    {availableAppointment?.map((time) => (
+      <Option key={time} value={time}>
+        {moment(time).format("HH:mm")}
+      </Option>
+    ))}
+  </Select>
+</Form.Item>
       </div>
       <Form.Item style={{display:"flex",flexDirection:"row",justifyContent:"flex-end"}}>
         <Button type="primary" htmlType="submit" onClick={createAppointment}>

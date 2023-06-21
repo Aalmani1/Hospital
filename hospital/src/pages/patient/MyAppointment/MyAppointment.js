@@ -3,7 +3,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import React ,{useState ,useEffect}from "react";
 import axios from 'axios';
 import { DownOutlined } from '@ant-design/icons';
-import { Form, DatePicker, Select,message } from 'antd';
+import { Form, DatePicker, Select,message,Spin } from 'antd';
 import moment from "moment/moment";
 import './MyAppointment.css'
 
@@ -14,6 +14,7 @@ const MyAppointmet=()=>{
     const [appointmentData , setAppointmentData]=useState();
 
     const getMyAppointment = async () => {
+      setIsLoading(true);
         try {
           const response = await axios.get(`http://localhost:1111/api/hospital/all-appointment/${patientId}`);
           console.log(response.data);
@@ -28,6 +29,7 @@ const MyAppointmet=()=>{
       };
 
       const deleteAppointment = async (id) => {
+        setIsLoading(true);
         try {
           await axios.delete(`http://localhost:1111/api/hospital/delete-appointment/${id}`);
           message.success('Appointment deleted successfully');
@@ -43,7 +45,7 @@ const MyAppointmet=()=>{
         }
       };
 
-      console.log("33",appointmentData)
+
       useEffect(() => {
         getMyAppointment();
       }, []);
@@ -124,11 +126,32 @@ const MyAppointmet=()=>{
 
 
 return (
+<div>
+  {isLoading?
+     <div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+     <Spin/>
+     </div>
+  :
+  <div>
+  <div  style={{backgroundColor:"#fff" , borderRadius:"8px" , color:"black" , width:"100%", marginBottom:"15%"}}>
+
+      <div style={{  padding:"3%"}}>
+
+    <h3 style={{color:"#458EF6"}}>My Appointment</h3>
+<br></br>
+<br></br>
     <Table columns={columns} dataSource={appointmentData} 
     rowClassName={(record, index) => {
         if (index % 2 === 0) return 'evenRow';
         return 'oddRow';
       }}/>
+      </div>
+      </div>
+      </div>
+    }
+    </div>
+
+    
 )
 }
 export default MyAppointmet;
