@@ -7,16 +7,16 @@ import { Form, DatePicker, Select,message,Spin } from 'antd';
 import moment from "moment/moment";
 import './MyPrescription.css'
 
-const MyPrescription=()=>{
+const MyPrescription=({userOpj})=>{
 
-    const [patientId , setPatientId]=useState(1);
+  console.log("userOpj",userOpj)
     const [isLoading , setIsLoading]=useState(false);
     const [prescriptionData , setPrescriptionData]=useState();
 
     const getMyPrescription = async () => {
       setIsLoading(true)
         try {
-          const response = await axios.get(`http://localhost:1111/api/patient/${patientId}/prescriptions`);
+          const response = await axios.get(`http://localhost:1111/api/patient/${userOpj?.patientId}/prescriptions`);
           console.log(response.data);
           setIsLoading(false);
           setPrescriptionData([])

@@ -7,25 +7,26 @@ import { Form, DatePicker, Select,message,Spin } from 'antd';
 import moment from "moment/moment";
 import './MyAppointment.css'
 
-const MyAppointmet=()=>{
+const MyAppointmet=({userOpj})=>{
 
-    const [patientId , setPatientId]=useState(1);
     const [isLoading , setIsLoading]=useState(false);
     const [appointmentData , setAppointmentData]=useState();
 
+
     const getMyAppointment = async () => {
+      
       setIsLoading(true);
         try {
-          const response = await axios.get(`http://localhost:1111/api/hospital/all-appointment/${patientId}`);
+          const response = await axios.get(`http://localhost:1111/api/hospital/all-appointment/${userOpj?.patientId}`);
           console.log(response.data);
           setIsLoading(false);
-          setAppointmentData([])
           setAppointmentData(response.data)
           return response.data;
         } catch (error) {
           console.error(error);
           setIsLoading(false);
         }
+        setIsLoading(false);
       };
 
       const deleteAppointment = async (id) => {
@@ -42,6 +43,7 @@ const MyAppointmet=()=>{
               message.error('Something went wrong , please try again later');
               }
           console.error(`Error deleting appointment with ID ${id}:`, error);
+          setIsLoading(false);
         }
       };
 

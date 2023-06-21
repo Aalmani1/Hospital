@@ -4,9 +4,11 @@ import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
 import { Form, DatePicker, Select, Button,message ,Spin} from 'antd';
 import moment from "moment/moment";
+import { useNavigate } from 'react-router-dom';
+
 const { Option } = Select;
 
-const BookAppointmet=()=>{
+const BookAppointmet=({userOpj})=>{
     const [isLoading, setIsLoading] = useState(true);
     const [doctors,setDoctors]=useState();
     const [form] = Form.useForm();
@@ -14,14 +16,16 @@ const BookAppointmet=()=>{
     const [selectedDate, setSelectedDate] = useState(null);
     const [availableAppointment , setAvailableAppointment]=useState([])
     const [fullTime , setFullTime]=useState("")
+    const navigate = useNavigate();
 
-  
+  console.log("selectedDoctorId",selectedDoctorId)
+  console.log("userOpj",userOpj)
+
 
     const getDoctors = async () => {
       setIsLoading(true)
         try {
           const response = await axios.get('http://localhost:1111/api/hospital/all-doctors');
-          console.log(response.data);
           setIsLoading(false);
           setDoctors(response.data)
           return response.data;
@@ -35,10 +39,10 @@ const BookAppointmet=()=>{
         setIsLoading(true)
         try {
           const response = await axios.get(`http://localhost:1111/api/hospital/available-appointments/${selectedDoctorId}/${selectedDate}`);
-          console.log(response.data);
           setIsLoading(false);
           setAvailableAppointment([])
           setAvailableAppointment(response.data)
+          setIsLoading(false)
           return response.data;
         } catch (error) {
           console.error(error);
@@ -56,12 +60,14 @@ const BookAppointmet=()=>{
         try {
           const response = await axios.post('http://localhost:1111/api/hospital/Add-appointment', {
             appointmentTime: fullTime,
-            patientId: 1,
+            patientId: userOpj?.patientId,
             doctorId: selectedDoctorId,
+            absent:"3"
           });
           // Show success message
           message.success('Appointment created successfully');
           clearForm(); 
+          setIsLoading(false)
           return response.data;
         } catch (error) {
             if(error?.response?.status===400){
@@ -69,6 +75,8 @@ const BookAppointmet=()=>{
             }
           else{
           message.error('Something went wrong , please try again later');
+          setIsLoading(false)
+
           }
           
         }
@@ -87,12 +95,10 @@ const BookAppointmet=()=>{
         };
 
   const handleDateSelect = (date, dateString) => {
-    console.log(dateString)
     setSelectedDate(dateString);
     setAvailableAppointment([]);
     setFullTime(""); // Clear the fullTime state variable when the date is changed
   };
-  console.log("fullTime",fullTime)
 
   const availableApp =()=>(
     (selectedDate&&selectedDoctorId)&&getAvailableAppointment()
@@ -108,7 +114,6 @@ const BookAppointmet=()=>{
   }, [selectedDate]);
 
   const handleFullTimeSelect = (value) => {
-    console.log(value)
     if (availableAppointment?.includes(value)) { // Only set the fullTime state variable if the selected value is available
       setFullTime(value);
     } else {
@@ -127,7 +132,7 @@ return (
 <br></br>
 <br></br>
 
-      <Form form={form} style={{width:"100%"}} disabled={isLoading}>
+      <Form form={form} style={{width:"100%"}}>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <Form.Item
           name="doctorId"
@@ -135,7 +140,8 @@ return (
           rules={[{ required: true, message: 'Please select a doctor' }]}
           style={{ flex: 1, marginRight: '1%' }}
         >
-          <Select placeholder="Select a doctor" onSelect={handleDoctorSelect}  value={selectedDoctorId} allowClear>
+          <Select placeholder="Select a doctor" onSelect={handleDoctorSelect}  
+          value={selectedDoctorId} allowClear>
             {doctors?.map((item) => (
               <Option key={item.doctorId} value={item.doctorId}>
                 {item.fullName}
@@ -176,7 +182,7 @@ return (
 </Form.Item>
       </div>
       <Form.Item style={{display:"flex",flexDirection:"row",justifyContent:"flex-end"}}>
-        <Button type="primary" htmlType="submit" onClick={createAppointment}>
+        <Button type="primary" htmlType="submit" isLoading={isLoading} onClick={createAppointment}>
           Submit
         </Button>
       </Form.Item>

@@ -12,7 +12,7 @@ import MedicineBoxOutlined from '@ant-design/icons/MedicineBoxOutlined';
 import { Modal, Input ,Spin } from 'antd';
 
 
-const MyAppointment =()=>{
+const MyAppointment =({userOpj})=>{
 
     
     const [isLoading , setIsLoading]=useState(false);
@@ -23,7 +23,6 @@ const MyAppointment =()=>{
     // ===================     prescription info
     const [appointmentId , setAppointmentId]=useState();
     const [patientId , setPatientId]=useState();
-    const [doctorId , setDoctorId]=useState(2);
     const [drugName , setDrugName]=useState();
     const [dose , setDose]=useState()
     const [duration , setDuration]=useState()
@@ -32,7 +31,7 @@ const MyAppointment =()=>{
     const getMyAppointment = async () => {
       setIsLoading(true)
         try {
-          const response = await axios.get(`http://localhost:1111/api/hospital/appointments/${doctorId}`);
+          const response = await axios.get(`http://localhost:1111/api/hospital/appointments/${userOpj?.doctorId}`);
           console.log(response.data);
           setIsLoading(false);
           setAppointmentData([])
@@ -48,7 +47,6 @@ const MyAppointment =()=>{
         getMyAppointment();
       }, []);
 
-      console.log(appointmentId)
       const columns = [
         {
             title: 'Appointment ID',
@@ -119,7 +117,7 @@ const MyAppointment =()=>{
       const createPrescription = async () => {
         try {
           const response = await axios.post('http://localhost:1111/api/issue-prescriptions', [{
-            "doctorId": doctorId,
+            "doctorId": userOpj?.doctorId,
             "patientId": patientId,
             "drugName": drugName,
             "dose": dose,
@@ -149,7 +147,6 @@ const MyAppointment =()=>{
 
       const clearForm=()=>(
         setAppointmentId(),
-        setDoctorId(),
         setPatientId(),
         setDrugName(),
         setDose(),

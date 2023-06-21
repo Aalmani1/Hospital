@@ -92,7 +92,7 @@ function Home({setUserOpj ,userOpj}) {
         <BookAppointmet/>
           </div>} */}
           {   component===2&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-        <MyAppointmet/>
+        <MyAppointmet userOpj={userOpj}/>
           </div>}
           {/* {   component===3&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
         <MyPrescription/>

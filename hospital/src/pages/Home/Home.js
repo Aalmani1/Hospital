@@ -331,7 +331,7 @@ return (
                                     <span class = "brand-text fw-7">Hospital</span>
                                 </a>
                                 <p class = "text-white">Hospital provides progressive, and affordable healthcare, accessible on mobile and online for everyone</p>
-                                <p class = "text-white copyright-text">&copy; Hospital PTY LTD 2023. All rights reserved.</p>
+                                <p class = "text-white copyright-text">&copy; Created by love</p>
                             </div>
 
                             <div class = "footer-item">
@@ -346,10 +346,9 @@ return (
                             <div class = "footer-item">
                                 <h3 class = "footer-item-title">Region</h3>
                                 <ul class = "footer-links">
-                                    <li><a href = "#">Indonesia</a></li>
-                                    <li><a href = "#">Singapore</a></li>
-                                    <li><a href = "#">Hongkong</a></li>
-                                    <li><a href = "#">Canada</a></li>
+                                    <li><a href = "#">Riyadh</a></li>
+                                    <li><a href = "#">Jeddah</a></li>
+                                    <li><a href = "#">Damam</a></li>
                                 </ul>
                             </div>
 

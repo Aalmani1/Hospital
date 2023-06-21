@@ -23,10 +23,12 @@ const SignUp = ()=>{
     const[phoneNumber , setPhoneNumber]=useState("")
     const[usename , setUsername]=useState("")
     const[password , setPassword]=useState("")
+    const [isLoading , setIsLoading]=useState(false)
 
     const navigate = useNavigate();
 
     const createPatient = async () => {
+        setIsLoading(true)
         try {
           const response = await axios.post('http://localhost:1111/api/hospital/add-patient', {
             fullName: `${firstName+lastName }`,
@@ -46,7 +48,7 @@ const SignUp = ()=>{
           else{
           message.error('Something went wrong , please try again later');
           }
-          
+          setIsLoading(false)
         }
       };
 
@@ -198,7 +200,7 @@ setUsername("")
                                     htmlType="submit" 
                                     onClick={handleSubmit}
                                     disabled={usename==="" || password===""||firstName===""||lastName===""||email===""||phoneNumber===""}
-
+                                    loading={isLoading}
                                     >
                                     Register
                                     </Button>
