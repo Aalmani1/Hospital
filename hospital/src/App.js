@@ -29,9 +29,9 @@ function App() {
         {userOpj && userOpj.role === "doctor" && (
           <Route path="/doctor" element={<DoctorHome setUserOpj={setUserOpj} userOpj={userOpj} />} />
         )}
-        {userOpj && userOpj.role === "admin" && (
+        {/* {userOpj && userOpj.role === "admin" && ( */}
           <Route path="/admin" element={<AdminHome />} />
-        )}
+        {/* )} */}
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </Router>

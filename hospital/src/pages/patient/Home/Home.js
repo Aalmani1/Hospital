@@ -67,6 +67,7 @@ function Home({setUserOpj ,userOpj}) {
         <Menu
           theme="light"
           mode="inline"
+          defaultSelectedKeys={['0']}
           style={{  borderRight: 0, backgroundColor: '#458ff6', color: '#fff' }}
         >
           <Menu.Item key="0" icon={<HomeOutlined />} style={{ color: '#fff' }}onClick={()=>setComponent(0)}>

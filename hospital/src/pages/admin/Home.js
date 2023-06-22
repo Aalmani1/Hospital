@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Layout, Menu, Button, Dropdown ,Space , Avatar,message} from 'antd';
-import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined } from '@ant-design/icons';
+import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined,HomeOutlined } from '@ant-design/icons';
 import './home.css'
 import CreateDoctor from './CreateDoctor';
 import AllAppointment from './AllAppointment';
@@ -16,7 +16,7 @@ const { Header, Content, Sider } = Layout;
 function Home({setUserOpj ,userOpj}) {
   const navigate = useNavigate();
 
-  const [component , setComponent]=useState();
+  const [component , setComponent]=useState(0);
 
   const logout = async () => {
     try {
@@ -66,10 +66,12 @@ function Home({setUserOpj ,userOpj}) {
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['0']}
           style={{  borderRight: 0, backgroundColor: '#458ff6', color: '#fff' }}
         >
-        
+          <Menu.Item key="0" icon={<HomeOutlined />} style={{ color: '#fff' }}onClick={()=>setComponent(0)}>
+            Home
+          </Menu.Item>
           <Menu.Item key="1" icon={<CalendarOutlined />} style={{ color: '#fff' }} onClick={()=>setComponent(1)}>
           Create Doctor
           </Menu.Item>

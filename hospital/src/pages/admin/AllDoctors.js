@@ -2,7 +2,7 @@ import { Space, Table, Tag,Button ,Dropdown} from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import React ,{useState ,useEffect}from "react";
 import axios from 'axios';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined ,EditOutlined } from '@ant-design/icons';
 import { Form, DatePicker, Select,message ,Spin} from 'antd';
 import moment from "moment/moment";
 
@@ -10,7 +10,6 @@ const AllDoctors =()=>{
 
     const [doctorsData , setDoctorsData]=useState();
     const [isLoading , setIsLoading]=useState(false);
-    const [doctorId , setDoctorId]=useState()
 
     
     const getAllDoctors = async () => {
@@ -38,7 +37,7 @@ const AllDoctors =()=>{
       const deleteDoctor = async (id) => {
         try {
           await axios.delete(`https://localhost:44381/api/hospital/delete-doctor/${id}`);
-          message.success('Appointment deleted successfully');
+          message.success('Doctor deleted successfully');
           console.log(`Doctor with ID ${id} deleted successfully`);
         } catch (error) {
             if(error?.response?.status===400){
@@ -47,7 +46,7 @@ const AllDoctors =()=>{
               else{
               message.error('Something went wrong , please try again later');
               }
-          console.error(`Error deleting appointment with ID ${id}:`, error);
+          console.error(`Error deleting doctor with ID ${id}:`, error);
         }
       };
 
@@ -78,6 +77,13 @@ const AllDoctors =()=>{
             key: '',
             render: (e) => (
               <Space >
+                      <Button 
+              type="link" 
+              onClick={() => deleteDoctor(e.doctorId )}
+          >
+          <EditOutlined style={{ fontSize: '24px', color:"#458ff6"}} />
+
+          </Button>
               <Button 
               type="link" 
               onClick={() => deleteDoctor(e.doctorId )}
