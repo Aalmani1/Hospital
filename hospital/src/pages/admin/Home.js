@@ -8,6 +8,8 @@ import AllAppointment from './AllAppointment';
 import AllDoctors from './AllDoctors';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Row, Col, Card, Progress } from 'antd';
+import { DollarOutlined, ClipboardOutlined, CommentOutlined } from '@ant-design/icons';
 
 
 const { SubMenu } = Menu;
@@ -95,6 +97,11 @@ function Home({setUserOpj ,userOpj}) {
   </div>
 </Header>
 <Content style={{ margin: '24px 16px 0' }}>
+{   component===0&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+<div>
+  Dashboard
+</div>
+          </div>}
 {   component===1&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
         <CreateDoctor/>
           </div>}
