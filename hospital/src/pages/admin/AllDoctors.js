@@ -16,7 +16,7 @@ const AllDoctors =()=>{
     const getAllDoctors = async () => {
         setIsLoading(true);
         try {
-          const response = await axios.get(`http://localhost:1111/api/hospital/all-doctors`);
+          const response = await axios.get(`https://localhost:44381/api/hospital/all-doctors`);
           console.log(response.data);
           setIsLoading(false);
           setDoctorsData([])
@@ -37,7 +37,7 @@ const AllDoctors =()=>{
 
       const deleteDoctor = async (id) => {
         try {
-          await axios.delete(`http://localhost:1111/api/hospital/delete-doctor/${id}`);
+          await axios.delete(`https://localhost:44381/api/hospital/delete-doctor/${id}`);
           message.success('Appointment deleted successfully');
           console.log(`Doctor with ID ${id} deleted successfully`);
         } catch (error) {

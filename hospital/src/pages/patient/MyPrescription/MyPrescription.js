@@ -16,7 +16,7 @@ const MyPrescription=({userOpj})=>{
     const getMyPrescription = async () => {
       setIsLoading(true)
         try {
-          const response = await axios.get(`http://localhost:1111/api/patient/${userOpj?.patientId}/prescriptions`);
+          const response = await axios.get(`https://localhost:44381/api/patient/${userOpj?.patientId}/prescriptions`);
           console.log(response.data);
           setIsLoading(false);
           setPrescriptionData([])

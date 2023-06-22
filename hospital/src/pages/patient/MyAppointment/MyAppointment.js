@@ -17,7 +17,7 @@ const MyAppointmet=({userOpj})=>{
       
       setIsLoading(true);
         try {
-          const response = await axios.get(`http://localhost:1111/api/hospital/all-appointment/${userOpj?.patientId}`);
+          const response = await axios.get(`https://localhost:44381/api/hospital/all-appointment/${userOpj?.patientId}`);
           console.log(response.data);
           setIsLoading(false);
           setAppointmentData(response.data)
@@ -32,7 +32,7 @@ const MyAppointmet=({userOpj})=>{
       const deleteAppointment = async (id) => {
         setIsLoading(true);
         try {
-          await axios.delete(`http://localhost:1111/api/hospital/delete-appointment/${id}`);
+          await axios.delete(`https://localhost:44381/api/hospital/delete-appointment/${id}`);
           message.success('Appointment deleted successfully');
           console.log(`Appointment with ID ${id} deleted successfully`);
         } catch (error) {

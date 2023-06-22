@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
-const BookAppointmet=({userOpj})=>{
+const BookAppointmet=({userOpj,setComponent})=>{
     const [isLoading, setIsLoading] = useState(true);
     const [doctors,setDoctors]=useState();
     const [form] = Form.useForm();
@@ -25,7 +25,7 @@ const BookAppointmet=({userOpj})=>{
     const getDoctors = async () => {
       setIsLoading(true)
         try {
-          const response = await axios.get('http://localhost:1111/api/hospital/all-doctors');
+          const response = await axios.get('https://localhost:44381/api/hospital/all-doctors');
           setIsLoading(false);
           setDoctors(response.data)
           return response.data;
@@ -38,7 +38,7 @@ const BookAppointmet=({userOpj})=>{
       const getAvailableAppointment = async () => {
         setIsLoading(true)
         try {
-          const response = await axios.get(`http://localhost:1111/api/hospital/available-appointments/${selectedDoctorId}/${selectedDate}`);
+          const response = await axios.get(`https://localhost:44381/api/hospital/available-appointments/${selectedDoctorId}/${selectedDate}`);
           setIsLoading(false);
           setAvailableAppointment([])
           setAvailableAppointment(response.data)
@@ -54,11 +54,11 @@ const BookAppointmet=({userOpj})=>{
         getDoctors();
       }, []);
     
- 
+
       const createAppointment = async () => {
         setIsLoading(true)
         try {
-          const response = await axios.post('http://localhost:1111/api/hospital/Add-appointment', {
+          const response = await axios.post('https://localhost:44381/api/hospital/Add-appointment', {
             appointmentTime: fullTime,
             patientId: userOpj?.patientId,
             doctorId: selectedDoctorId,
@@ -68,6 +68,7 @@ const BookAppointmet=({userOpj})=>{
           message.success('Appointment created successfully');
           clearForm(); 
           setIsLoading(false)
+          setComponent(0)
           return response.data;
         } catch (error) {
             if(error?.response?.status===400){

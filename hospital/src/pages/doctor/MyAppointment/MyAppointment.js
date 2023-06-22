@@ -31,7 +31,7 @@ const MyAppointment =({userOpj})=>{
     const getMyAppointment = async () => {
       setIsLoading(true)
         try {
-          const response = await axios.get(`http://localhost:1111/api/hospital/appointments/${userOpj?.doctorId}`);
+          const response = await axios.get(`https://localhost:44381/api/hospital/appointments/${userOpj?.doctorId}`);
           console.log(response.data);
           setIsLoading(false);
           setAppointmentData([])
@@ -116,7 +116,7 @@ const MyAppointment =({userOpj})=>{
 
       const createPrescription = async () => {
         try {
-          const response = await axios.post('http://localhost:1111/api/issue-prescriptions', [{
+          const response = await axios.post('https://localhost:44381/api/issue-prescriptions', [{
             "doctorId": userOpj?.doctorId,
             "patientId": patientId,
             "drugName": drugName,

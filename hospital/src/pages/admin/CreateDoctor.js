@@ -20,7 +20,7 @@ const CreateDoctor =()=>{
     const createPatient = async () => {
       setIsLoading(true);
         try {
-          const response = await axios.post('http://localhost:1111/api/hospital/add-doctor', {
+          const response = await axios.post('https://localhost:44381/api/hospital/add-doctor', {
             fullName: `${firstName+lastName }`,
             phoneNumber: phoneNumber,
             userName: usename,

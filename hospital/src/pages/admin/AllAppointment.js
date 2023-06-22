@@ -14,7 +14,7 @@ const AllAppointment =()=>{
     const getAllAppointment = async () => {
         setIsLoading(true);
         try {
-          const response = await axios.get(`http://localhost:1111/api/hospital/all-appointment`);
+          const response = await axios.get(`https://localhost:44381/api/hospital/all-appointment`);
           console.log(response.data);
           setIsLoading(false);
           setAppointmentData([])

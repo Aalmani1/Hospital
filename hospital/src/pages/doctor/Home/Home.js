@@ -1,11 +1,14 @@
 
 import React, { useState } from 'react';
 import { Layout, Menu, Button, Dropdown ,Space , Avatar ,message} from 'antd';
-import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined } from '@ant-design/icons';
+import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined,HomeOutlined } from '@ant-design/icons';
 import './home.css'
 import MyAppointmet from '../MyAppointment/MyAppointment';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import elemImg1 from '../../../imgs/element-img-1.png';
+import bannedImg from '../../../imgs/banner-image.png';
+
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -13,11 +16,11 @@ const { Header, Content, Sider } = Layout;
 function Home({setUserOpj ,userOpj}) {
   const navigate = useNavigate();
 
-  const [component , setComponent]=useState();
+  const [component , setComponent]=useState(0);
 
   const logout = async () => {
     try {
-      const response = await axios.post('http://localhost:1111/api/logout');
+      const response = await axios.post('https://localhost:44381/api/logout');
       // Show success message
       message.success('Logout successfully');
       //clearForm();
@@ -54,6 +57,9 @@ function Home({setUserOpj ,userOpj}) {
   
 
   return (
+    <div>
+        
+
 <Layout style={{ height: '120vh' }}>      
 <Sider  className="site-layout-background" style={{ backgroundColor: '#458ff6', color: '#fff' }}>
         <div className='d-flex' style={{ fontSize: '1.5rem', fontWeight: 'bold', padding: '16px', color: '#fff' }}>
@@ -67,13 +73,13 @@ function Home({setUserOpj ,userOpj}) {
           defaultSelectedKeys={['1']}
           style={{  borderRight: 0, backgroundColor: '#458ff6', color: '#fff' }}
         >
-        
+         <Menu.Item key="0" icon={<HomeOutlined />} style={{ color: '#fff' }}onClick={()=>setComponent(0)}>
+            Home
+          </Menu.Item>
           <Menu.Item key="2" icon={<CalendarOutlined />} style={{ color: '#fff' }} onClick={()=>setComponent(2)}>
             My appointment
           </Menu.Item>
-          {/* <Menu.Item key="3" icon={<FileOutlined />} style={{ color: '#fff' }}onClick={()=>setComponent(3)}>
-            My prescription
-          </Menu.Item> */}
+         
         </Menu>
       </Sider>
       <Layout>
@@ -94,13 +100,37 @@ function Home({setUserOpj ,userOpj}) {
           {   component===2&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
         <MyAppointmet userOpj={userOpj}/>
           </div>}
-          {/* {   component===3&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-        <MyPrescription/>
-          </div>} */}
+          {   component===0&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <div>
+
+                <div class="element-one">
+                    <img src = {elemImg1} alt = ""/>
+                </div>
+
+                <div class="banner">
+                    <div class="container">
+                        <div class="banner-content">
+                            <div class="banner-left">
+                                <div class="content-wrapper">
+                                    <h1 class="banner-title" style={{color:"#458ff6"}}>We Care</h1>
+                                    <p >Hospital provides progressive, and affordable healthcare, accessible on mobile and onnline for everyone</p>
+                                   
+                                </div>
+                            </div>
+
+                            <div class = "banner-right d-flex align-items-center justify-content-end">
+                                <img src = {bannedImg} alt = ""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>}
           
         </Content>
       </Layout>
     </Layout>
+    </div>
   );
 }
 

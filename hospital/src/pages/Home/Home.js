@@ -331,7 +331,7 @@ return (
                                     <span class = "brand-text fw-7">Hospital</span>
                                 </a>
                                 <p class = "text-white">Hospital provides progressive, and affordable healthcare, accessible on mobile and online for everyone</p>
-                                <p class = "text-white copyright-text">&copy; Created by love</p>
+                                <p class = "text-white copyright-text">&copy; Created by Amirah</p>
                             </div>
 
                             <div class = "footer-item">

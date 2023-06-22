@@ -1,13 +1,15 @@
 
 import React, { useState } from 'react';
 import { Layout, Menu, Button, Dropdown ,Space , Avatar,message} from 'antd';
-import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined } from '@ant-design/icons';
+import { UserOutlined, LogoutOutlined, BookOutlined, CalendarOutlined, FileOutlined,HomeOutlined } from '@ant-design/icons';
 import './home.css'
 import BookAppointmet from '../BookAppointment/BookAppointment';
 import MyAppointmet from '../MyAppointment/MyAppointment';
 import MyPrescription from '../MyPrescription/MyPrescription';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import elemImg1 from '../../../imgs/element-img-1.png';
+import bannedImg from '../../../imgs/banner-image.png';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -15,11 +17,11 @@ const { Header, Content, Sider } = Layout;
 function Home({setUserOpj ,userOpj}) {
   const navigate = useNavigate();
 
-  const [component , setComponent]=useState();
+  const [component , setComponent]=useState(0);
 
   const logout = async () => {
     try {
-      const response = await axios.post('http://localhost:1111/api/logout');
+      const response = await axios.post('https://localhost:44381/api/logout');
       // Show success message
       message.success('Logout successfully');
       //clearForm();
@@ -65,9 +67,11 @@ function Home({setUserOpj ,userOpj}) {
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={['1']}
           style={{  borderRight: 0, backgroundColor: '#458ff6', color: '#fff' }}
         >
+          <Menu.Item key="0" icon={<HomeOutlined />} style={{ color: '#fff' }}onClick={()=>setComponent(0)}>
+            Home
+          </Menu.Item>
           <Menu.Item key="1" icon={<BookOutlined />} style={{ color: '#fff' }} onClick={()=>setComponent(1)}>
             Book appointment
           </Menu.Item>
@@ -91,8 +95,34 @@ function Home({setUserOpj ,userOpj}) {
   </div>
 </Header>
 <Content style={{ margin: '24px 16px 0' }}>
+{   component===0&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+<div>
+
+<div class="element-one">
+    <img src = {elemImg1} alt = ""/>
+</div>
+
+<div class="banner">
+    <div class="container">
+        <div class="banner-content">
+            <div class="banner-left">
+                <div class="content-wrapper">
+                    <h1 class="banner-title" style={{color:"#458ff6"}}>We Care</h1>
+                    <p >Hospital provides progressive, and affordable healthcare, accessible on mobile and onnline for everyone</p>
+                   
+                </div>
+            </div>
+
+            <div class = "banner-right d-flex align-items-center justify-content-end">
+                <img src = {bannedImg} alt = ""/>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+          </div>}
        {   component===1&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-        <BookAppointmet userOpj={userOpj}/>
+        <BookAppointmet userOpj={userOpj} setComponent={setComponent}/>
           </div>}
           {   component===2&&<div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
         <MyAppointmet userOpj={userOpj}/>

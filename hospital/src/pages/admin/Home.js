@@ -20,7 +20,7 @@ function Home({setUserOpj ,userOpj}) {
 
   const logout = async () => {
     try {
-      const response = await axios.post('http://localhost:1111/api/logout');
+      const response = await axios.post('https://localhost:44381/api/logout');
       // Show success message
       message.success('Logout successfully');
       //clearForm();
