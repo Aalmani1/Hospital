@@ -31,7 +31,7 @@ const SignUp = ()=>{
         setIsLoading(true)
         try {
           const response = await axios.post('https://localhost:44381/api/hospital/add-patient', {
-            fullName: `${firstName+lastName }`,
+            fullName: `${firstName+" "+lastName }`,
             phoneNumber: phoneNumber,
             userName: usename,
             password: password
